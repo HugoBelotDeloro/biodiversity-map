@@ -1,2 +1,4 @@
 .direnv
 .envrc
+.idea
+node_modules
