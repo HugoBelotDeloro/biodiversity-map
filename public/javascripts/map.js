@@ -14,10 +14,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(map);
 
 function walkCountries(tree, sumPerCountry) {
-  if (!tree.node_attrs.country) {
-    console.log(tree);
-  }
-  let confidencePerCountry = tree.node_attrs.country.confidence;
+  let confidencePerCountry = tree.node_attrs.country?.confidence ||
+    tree.node_attrs.region?.confidence ||
+    tree.node_attrs.state?.confidence;
   for (const country in confidencePerCountry) {
     if (!sumPerCountry[country]) {
       sumPerCountry[country] = 0;
@@ -74,5 +73,5 @@ function loadDataset(dataset, color, fillColor) {
 }
 
 loadDataset('zika', 'red', '#f03000');
-// loadDataset('dengue/all', 'blue', '#0030f0');
-// loadDataset('WNV/NA', 'red', '#00f030');
+loadDataset('dengue/all', 'blue', '#0030f0');
+loadDataset('WNV/NA', 'green', '#00f030');
