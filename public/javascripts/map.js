@@ -31,7 +31,7 @@ function walkCountries(tree, sumPerCountry) {
 }
 
 async function getCountryCoordinates(country) {
-  return fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${country}.json?access_token=${accessToken}`)
+  return fetch(`/getGeocode?access_token=${accessToken}&country=${country}`)
       .then(res => res.json())
       .then(res => {
         for (const feature of res.features) {
@@ -67,9 +67,9 @@ async function processTree(tree, color, fillColor) {
 function loadDataset(dataset, color, fillColor) {
   fetch(`/fetchDataset?prefix=${dataset}`)
   .then(res => res.json())
-  .catch(err => console.log('Error fetching dataset', err))
+  .catch(err => console.log(`Error fetching dataset ${dataset}`, err))
   .then(res => processTree(res.tree, color, fillColor))
-  .catch(err => console.log('Error processing tree', err));
+  .catch(err => console.log(`Error processing tree ${dataset}`, err));
 }
 
 loadDataset('zika', 'red', '#f03000');
