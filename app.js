@@ -43,22 +43,6 @@ app.get('/fetchDataset', async (req, res) => {
   res.send(dataset);
 });
 
-app.get('/getGeocode', async (req, res) => {
-  const access_token = req.query.access_token;
-  const country = req.query.country;
-  let geocode = await client.json.get(`geocode:${country}`, '$');
-  if (geocode === null) {
-    // console.log(`Geocode ${country}: cache miss`);
-    geocode = (await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${country}.json`, { params: { access_token } })
-      .catch(err => console.log('Error fetching: ', err))).data;
-    client.json.set(`geocode:${country}`, '$', geocode).catch(err => console.log('Error setting data to cache: ', err));
-  }
-  else {
-    // console.log(`Geocode ${country}: cache hit`);
-  }
-  res.send(geocode);
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
